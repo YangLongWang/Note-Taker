@@ -1,4 +1,4 @@
-const { createNewNote } = require('../../lib/notes');
+const { createNewNote, findIndexById, updateNote } = require('../../lib/notes');
 const notes = require('../../db/db');
 const router = require('express').Router();
 
@@ -15,5 +15,18 @@ router.post('/notes', (req, res) => {
     const note = createNewNote(req.body, notes);
     res.json(note);
 });
+
+router.delete('/notes/:id', (req, res) => {
+    const result = findIndexById(req.params.id, notes);
+
+    if (result === -1) {
+        return res.status(404).json({});
+    }
+
+    notes.splice(result, 1);
+
+    const update = updateNote(notes);
+    res.json(update);
+})
 
 module.exports = router;
