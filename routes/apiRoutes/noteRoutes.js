@@ -19,10 +19,6 @@ router.post('/notes', (req, res) => {
 router.delete('/notes/:id', (req, res) => {
     const result = findIndexById(req.params.id, notes);
 
-    if (result === -1) {
-        return res.status(404).json({});
-    }
-
     notes.splice(result, 1);
 
     const update = updateNote(notes);
